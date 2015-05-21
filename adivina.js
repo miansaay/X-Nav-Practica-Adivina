@@ -52,7 +52,7 @@ $(document).ready(function() {
     window.onpopstate = function(event) {
         alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
     };
-    history.go(-1);
+    //history.go(-1);
     
     function onMapClick(e) {
          //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
