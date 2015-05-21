@@ -24,6 +24,8 @@ var NombreJuego;
 var puntcTotal;
 var HoraTerm;
 var HoraTermJ;
+var longJSON;
+var NombreJNow;
 $(document).ready(function() {
 
     
@@ -31,28 +33,19 @@ $(document).ready(function() {
     map = L.map('map');
     map.setView([40.2838, -3.8215], 1);
     // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    //L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        //attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    //}).addTo(map);
+
+    L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
     }).addTo(map);
 
     // add a marker in the given location, attach some popup content to it and open the popup
     //L.marker([40.2838, -3.8215]).addTo(map).bindPopup('Aulario III<br>Urjc').openPopup();
     var popup = L.popup();
-    $.getJSON("/history", function(data) {
-       entradas = "<ul>"
-       for (var i = 0; i < data.length; i++) {
-                  entradas  = entradas + "Nombre del Juego: " + data[i].nombre + "Hora: " 
-                               + data[i].hora + "Puntuación: " + data[i].puntuacion + "<br>"
-                  //imagenes = imagenes + '<img src=' + data.items[i].media.m + '/>';
-                 //$("#fotosnews").html(imagenes);
-        }
-        entradas = entradas + "</ul>"
-        $("#historial").html(entradas);
-    });
-    window.onpopstate = function(event) {
-        alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-    };
-    //history.go(-1);
+    
+    
     
     function onMapClick(e) {
          //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
@@ -77,6 +70,7 @@ $(document).ready(function() {
          HoraTermJ = HoraTerm.toString();
          console.log(HoraTermJ);
          $("#puntuacion").html("<h2>Puntuación: " + puntcTotal + "</h2>");
+         NombreJNow = Respuesta;
          //Con ClearInterval paramos las fotos a elegir.
          clearInterval(fotosviews); 
          console.log("Distancia: " + distancia);
@@ -85,9 +79,13 @@ $(document).ready(function() {
         //Reset Map
         map.setView([40.2838, -3.8215], 1);
         // add an OpenStreetMap tile layer
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        //L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          //attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        //}).addTo(map);
+        L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
+       }).addTo(map);
+
         
         fotosvistas = 0;
         intervalo = 14400;
@@ -99,10 +97,11 @@ $(document).ready(function() {
     
 
     $("#capitales").click(function() {
+         AnteriorJuego = NombreJuego;
          if (puntcTotal != undefined) {
              history.pushState(
-             {nombre:NombreJuego, hora:HoraTermJ, puntuacion:puntcTotal}, 
-              "Adivinanzas", "/history");   
+             {nombre:AnteriorJuego, hora:HoraTermJ, puntuacion:puntcTotal}, 
+              "Adivinanzas", "/capitales");   
          }
          JuegoElegido = "juegos/capitales.json";
          NombreJuego = $(this).html();
@@ -111,10 +110,11 @@ $(document).ready(function() {
     });
     
      $("#islas").click(function() {
+         AnteriorJuego = NombreJuego;
          if (puntcTotal != undefined) {
              history.pushState(
-             {nombre:NombreJuego, hora:HoraTermJ, puntuacion:puntcTotal},
-              "Adivinanzas", "/history");   
+             {nombre:AnteriorJuego, hora:HoraTermJ, puntuacion:puntcTotal},
+              "Adivinanzas", "/islas");   
          }
          JuegoElegido = "juegos/islas.json";
          NombreJuego = $(this).html();
@@ -139,15 +139,31 @@ $(document).ready(function() {
         console.log(dificultad);
         intervalo = intervalo/dificultad;
     });
+ 
+    $("#historial").click(function() {
+      window.onpopstate = function(event) {
+          alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+          entradas = "<ul>"
+             
+          entradas  = entradas + "Nombre del Juego: " + event.state.nombre + " Hora: " 
+                    + event.state.hora + " Puntuación: " + event.state.puntuacion + "<br>"
+              
+        entradas = entradas + "</ul>"
+        $("#historial").after(entradas);
+       };       
+      history.go(-1);
+     
+   
+    });
 
     $("#resetjuego").click(ResetGame = function() {
        clearInterval(fotosviews);
        fotosvistas = 0;
-       Newnumero = Math.floor((Math.random() * 10) + 1) - 1;
+       Newnumero = Math.floor((Math.random() * longJSON) + 1) - 1;
        console.log(Newnumero);
        if(Newnumero != numero){
          $.getJSON(JuegoElegido, function(data) {
-           console.log(data.features[Newnumero].properties.Name);
+           console.log("Buscamos fotos de: " + data.features[Newnumero].properties.Name);
            Respuesta = data.features[Newnumero].properties.Name;
            //$("#juego").html("<h3>" + "</h3>");
            console.log("Longitud: " + data.features[Newnumero].geometry.coordinates[0]);
@@ -156,7 +172,7 @@ $(document).ready(function() {
            longitudjuego = data.features[Newnumero].geometry.coordinates[0];
            var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?&jsoncallback=?";
            $.getJSON(flickerAPI, {
-               tags: numero,
+               tags: Respuesta,
                tagmode: "any",
                format: "json"
            })
@@ -184,9 +200,12 @@ $(document).ready(function() {
     }
     $.getJSON(JuegoElegido, function(data) {
       //L.geoJson(data).addTo(map).bindPopup('Coordenas GeoJSON').openPopup();
-      numero = Math.floor((Math.random() * 10) + 1) - 1;
+      //data.features.length;
+      console.log("Longitud JSON: " + data.features.length);
+      longJSON = data.features.length;
+      numero = Math.floor((Math.random() * longJSON) + 1) - 1;
       console.log(numero);
-      console.log(data.features[numero].properties.Name);
+      console.log("Buscamos fotos de: " + data.features[numero].properties.Name);
       Respuesta = data.features[numero].properties.Name;
       //$("#juego").html("<h3>" + "</h3>");
       console.log("Longitud: " + data.features[numero].geometry.coordinates[0]);
@@ -195,7 +214,7 @@ $(document).ready(function() {
       longitudjuego = data.features[numero].geometry.coordinates[0];
       var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?&jsoncallback=?";
       $.getJSON(flickerAPI, {
-          tags: numero,
+          tags: Respuesta,
           tagmode: "any",
           format: "json"
       })
