@@ -6,9 +6,8 @@ var numfotos = 0;
 var fotosvistas = 0;
 var latitudjuego;
 var longitudjuego;
-var latitudjugador;
-var longitudjugador;
-var Puntuacion;
+//var latitudjugador;
+//var longitudjugador;
 var Respuesta;
 var JuegoElegido;
 var map;
@@ -16,19 +15,18 @@ var numero;
 //Variable de la función SetInterval
 var fotosviews;
 //
-var dificultad;
+//var dificultad;
 var intervalo = 14400;
 var puntuacion;
-var Newnumero;
+//var Newnumero;
 var NombreJuego;
-var puntcTotal;
-var HoraTerm;
+var AntJuego;
+var puntTotal;
 var HoraTermJ;
 var longJSON;
-var NombreJNow;
+
 $(document).ready(function() {
 
-    
     // create a map in the "map" div, set the view to a given place and zoom
     map = L.map('map');
     map.setView([40.2838, -3.8215], 1);
@@ -49,33 +47,34 @@ $(document).ready(function() {
     
     function onMapClick(e) {
          //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
-         popup.setLatLng(e.latlng).setContent("Has seleccionado en el mapa las coordenadas: " + "<br>" + "Latidud: " + e.latlng.lat 
-         + "." + "<br>" + "Longitud: " + e.latlng.lng + ".").openOn(map);
+         //popup.setLatLng(e.latlng).setContent("Has seleccionado en el mapa las coordenadas: " + "<br>" + "Latidud: " + e.latlng.lat 
+         //+ "." + "<br>" + "Longitud: " + e.latlng.lng + ".").openOn(map);
          console.log(e.latlng.lat);
          console.log(e.latlng.lng);
-         latitudjugador = e.latlng.lat;
-         longitudjugador = e.latlng.lng;
+         var latitudjugador = e.latlng.lat;
+         var longitudjugador = e.latlng.lng;
          $("#juego").html("<h2>Era... " + Respuesta + "</h2>");
          console.log("LatitudJug: " + latitudjugador);
          console.log("LongitudJug: " + longitudjugador);
          var distancia = Distancia(latitudjuego, latitudjugador, longitudjuego, longitudjugador);
-         if (puntuacion != undefined) {
-              puntcTotal =  puntcTotal + Math.trunc(distancia/(distancia*fotosvistas)) + 9;
-         } else {
-              puntuacion = Math.trunc(distancia/(distancia*fotosvistas)) + 9;
-              puntcTotal = puntuacion;
-         }
+         puntuacion = Math.trunc(100000/(distancia*fotosvistas));
+         //if (puntuacion != undefined) {
+              //puntuacion = Math.trunc(100000/(distancia*fotosvistas));
+              //puntTotal =  puntTotal + puntuacion;
+         //} else {
+              //puntuacion = Math.trunc(100000/(distancia*fotosvistas));
+              //puntTotal = puntuacion;
+         //}
          
-         HoraTerm = new Date();
+         var HoraTerm = new Date();
          HoraTermJ = HoraTerm.toString();
          console.log(HoraTermJ);
-         $("#puntuacion").html("<h2>Puntuación: " + puntcTotal + "</h2>");
-         NombreJNow = Respuesta;
+         $("#puntuacion").html("<h2>Puntuación: " + puntuacion + "</h2>");
          //Con ClearInterval paramos las fotos a elegir.
          clearInterval(fotosviews); 
          console.log("Distancia: " + distancia);
-         console.log("Puntuación: " + (Math.trunc((distancia*fotosvistas)/distancia)));
- 
+         //console.log("Puntuación: " + (Math.trunc((distancia*fotosvistas)/distancia)));
+         console.log("Puntuación 2: " + Math.trunc(100000/(distancia*fotosvistas)));
         //Reset Map
         map.setView([40.2838, -3.8215], 1);
         // add an OpenStreetMap tile layer
@@ -86,10 +85,8 @@ $(document).ready(function() {
           attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
        }).addTo(map);
 
-        
-        fotosvistas = 0;
-        intervalo = 14400;
-        //$("#puntuacion").html() = "";
+       fotosvistas = 0;
+       intervalo = 14400;
                
     }
     map.on('click', onMapClick);
@@ -97,45 +94,74 @@ $(document).ready(function() {
     
 
     $("#capitales").click(function() {
-         AnteriorJuego = NombreJuego;
-         if (puntcTotal != undefined) {
-             history.pushState(
-             {nombre:AnteriorJuego, hora:HoraTermJ, puntuacion:puntcTotal}, 
-              "Adivinanzas", "/capitales");   
-         }
-         JuegoElegido = "juegos/capitales.json";
-         NombreJuego = $(this).html();
-         console.log(NombreJuego);
-         IniciarJuego();     
+        var i = 1;
+        var state = -1;
+        AntJuego  = NombreJuego;
+        if (puntuacion != undefined) {
+          history.pushState(
+          {nombre:AntJuego, hora:HoraTermJ, puntuacion:puntuacion}, 
+          "Adivinanzas", "/" + AntJuego + i );
+          $("#historial").after("<a href:'javascript:history(" + state + ")>'Nombre del Juego: " + AntJuego + ", " + "Hora: " 
+                    + HoraTermJ + ", " + "Puntuación: " + puntuacion + "<a><br>");   
+        }
+        i++;
+        JuegoElegido = "juegos/capitales.json";
+        NombreJuego = $(this).html();
+        console.log(NombreJuego);
+        IniciarJuego();     
     });
     
      $("#islas").click(function() {
-         AnteriorJuego = NombreJuego;
-         if (puntcTotal != undefined) {
+         var i = 1;
+         var state = -1;
+         AntJuego  = NombreJuego;
+         if (puntuacion != undefined) {
              history.pushState(
-             {nombre:AnteriorJuego, hora:HoraTermJ, puntuacion:puntcTotal},
-              "Adivinanzas", "/islas");   
+             {nombre:AntJuego, hora:HoraTermJ, puntuacion:puntuacion},
+              "Adivinanzas", "/" + AntJuego + i);
+             $("#historial").after("<a href:'javascript:history(" + state + ")'>Nombre del Juego: " + AntJuego + ", " + "Hora: " 
+                    + HoraTermJ + ", " + "Puntuación: " + puntuacion + "<br></a>");   
          }
+         i++;
          JuegoElegido = "juegos/islas.json";
+         NombreJuego = $(this).html();
+         console.log(NombreJuego);
+         IniciarJuego();    
+    });
+
+
+    $("#monumentos").click(function() {
+         var i = 1;
+         var state = -1;
+         AntJuego  = NombreJuego;
+         if (puntuacion != undefined) {
+             history.pushState(
+             {nombre:AntJuego, hora:HoraTermJ, puntuacion:puntuacion},
+              "Adivinanzas", "/" + AntJuego + i);
+             $("#historial").after("<a href:'javascript:history(" + state + ")'>Nombre del Juego: " + AntJuego + ", " + "Hora: " 
+                    + HoraTermJ + ", " + "Puntuación: " + puntuacion + "<br></a>");   
+         }
+         i++;
+         JuegoElegido = "juegos/monumentos.json";
          NombreJuego = $(this).html();
          console.log(NombreJuego);
          IniciarJuego();    
     });
   
     $("#level1").click(function() {
-        dificultad = 1;
+        var dificultad = 1;
         console.log(dificultad);
         intervalo = intervalo/dificultad;
     });
 
     $("#level5").click(function() {
-        dificultad = 5;
+        var dificultad = 5;
         console.log(dificultad);
         intervalo = intervalo/dificultad;
     });
 
     $("#level10").click(function() {
-        dificultad = 10;
+        var dificultad = 10;
         console.log(dificultad);
         intervalo = intervalo/dificultad;
     });
@@ -145,8 +171,8 @@ $(document).ready(function() {
           alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
           entradas = "<ul>"
              
-          entradas  = entradas + "Nombre del Juego: " + event.state.nombre + " Hora: " 
-                    + event.state.hora + " Puntuación: " + event.state.puntuacion + "<br>"
+          entradas  = entradas + "Nombre del Juego: " + event.state.nombre + ", " + "Hora: " 
+                    + event.state.hora + ", " + "Puntuación: " + event.state.puntuacion + "<br>"
               
         entradas = entradas + "</ul>"
         $("#historial").after(entradas);
@@ -159,7 +185,7 @@ $(document).ready(function() {
     $("#resetjuego").click(ResetGame = function() {
        clearInterval(fotosviews);
        fotosvistas = 0;
-       Newnumero = Math.floor((Math.random() * longJSON) + 1) - 1;
+       var Newnumero = Math.floor((Math.random() * longJSON) + 1) - 1;
        console.log(Newnumero);
        if(Newnumero != numero){
          $.getJSON(JuegoElegido, function(data) {
@@ -197,6 +223,7 @@ $(document).ready(function() {
   function IniciarJuego(){
     if ($("#juego").html() != "") {
        $("#juego").html("");
+       $("#puntuacion").html("");
     }
     $.getJSON(JuegoElegido, function(data) {
       //L.geoJson(data).addTo(map).bindPopup('Coordenas GeoJSON').openPopup();
@@ -242,7 +269,7 @@ $(document).ready(function() {
    }
 
 
-      function Distancia(latitud1, longitud1, latitud2, longitud2){
+   function Distancia(latitud1, longitud1, latitud2, longitud2){
        //R es el diámetro de la tierra en kilometros.
        var R = 6378.137; 
        var toRad = function(num) {
