@@ -112,7 +112,7 @@ $(document).ready(function() {
          
          history.pushState(
           {nombre:NombreJuego, hora:HoraTermJ, puntuacion:puntuacion}, 
-          "Adivinanzas", "/" + NombreJuego + i );
+          "Adivinanzas", "/X-Nav-Practica-Adivina/" + NombreJuego + i );
           //console.log("El valor de go es:" + state);
           var enlace = '<a id='+ NombreJuego + i +' href="javascript:history.go('+ state +')">Nombre del Juego: ' + NombreJuego 
            + ', ' +'Hora: ' + HoraTermJ + ', ' + 'Puntuación: ' + puntuacion + '<a><br>';
