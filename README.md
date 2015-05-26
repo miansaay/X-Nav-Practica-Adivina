@@ -20,8 +20,6 @@ Elegir dificultad antes del juego.
 
 Si se pulsa en terminar juego se inicia un nuevo juego de la misma temática que se había elegido.
 
-No entiendo porque en gh-pages fallan algunos JSON, yo en local con el mismo código si me funciona.
-
 El código para la distancia lo he sacado de:
 
 http://www.mapanet.eu/Resources/Script-Distance.htm
