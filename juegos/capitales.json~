@@ -1,0 +1,116 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [2.3488000, 48.8534100]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "París"
+		},
+		"id": 1
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-0.1257400, 51.5085300]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Londres"
+		},
+		"id": 2
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-3.6833, 40.4]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Madrid"
+		},
+		"id": 3
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [12.5113300, 41.8919300]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Roma"
+		},
+		"id": 4
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [13.383333 , 52.500000]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Berlín"
+		},
+		"id": 5
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-9.13549 , 38.7071]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Lisboa"
+		},
+		"id": 6
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [23.7308 , 37.9816]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Atenas"
+		},
+		"id": 7
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [10.7460900 , 59.9127300]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Oslo"
+		},
+		"id": 8
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [37.6172 ,  55.7508]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Moscú"
+		},
+		"id": 9
+            },
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-6.26761 ,  53.3434]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Dublín"
+		},
+		"id": 10
+            }
+  
+	]
+}
