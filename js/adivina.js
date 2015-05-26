@@ -53,13 +53,13 @@ $(document).ready(function() {
          //popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);
          //popup.setLatLng(e.latlng).setContent("Has seleccionado en el mapa las coordenadas: " + "<br>" + "Latidud: " + e.latlng.lat 
          //+ "." + "<br>" + "Longitud: " + e.latlng.lng + ".").openOn(map);
-         console.log(e.latlng.lat);
-         console.log(e.latlng.lng);
+         //console.log(e.latlng.lat);
+         //console.log(e.latlng.lng);
          var latitudjugador = e.latlng.lat;
          var longitudjugador = e.latlng.lng;
          $("#juego").html("<h2>Era... " + Respuesta + "</h2>");
-         console.log("LatitudJug: " + latitudjugador);
-         console.log("LongitudJug: " + longitudjugador);
+         //console.log("LatitudJug: " + latitudjugador);
+         //console.log("LongitudJug: " + longitudjugador);
          var distancia = Distancia(latitudjuego, latitudjugador, longitudjuego, longitudjugador);
          puntuacion = Math.trunc(100000/(distancia*fotosvistas));
          //PuntCapitales = puntuacion;
@@ -76,13 +76,13 @@ $(document).ready(function() {
          
          var HoraTerm = new Date();
          HoraTermJ = HoraTerm.toString();
-         console.log(HoraTermJ);
+         //console.log(HoraTermJ);
          $("#puntuacion").html("<h2>Puntuación: " + puntuacion + "</h2>");
          //Con ClearInterval paramos las fotos a elegir.
          clearInterval(fotosviews); 
-         console.log("Distancia: " + distancia);
+         //console.log("Distancia: " + distancia);
          //console.log("Puntuación: " + (Math.trunc((distancia*fotosvistas)/distancia)));
-         console.log("Puntuación 2: " + Math.trunc(100000/(distancia*fotosvistas)));
+         //console.log("Puntuación 2: " + Math.trunc(100000/(distancia*fotosvistas)));
         //Reset Map
         map.setView([40.2838, -3.8215], 1);
         // add an OpenStreetMap tile layer
@@ -99,8 +99,8 @@ $(document).ready(function() {
        if (puntuacion != undefined) {
          
          ListaJuegos.push(NombreJuego);
-         console.log(ListaJuegos.length);
-         console.log(ListaJuegos.indexOf(NombreJuego));
+         //console.log(ListaJuegos.length);
+         //console.log(ListaJuegos.indexOf(NombreJuego));
          var state = -ListaJuegos.length + ListaJuegos.indexOf(NombreJuego);
         if(NombreJuego == "Capitales"){
                i = index1;
@@ -113,7 +113,7 @@ $(document).ready(function() {
          history.pushState(
           {nombre:NombreJuego, hora:HoraTermJ, puntuacion:puntuacion}, 
           "Adivinanzas", "/" + NombreJuego + i );
-          console.log("El valor de go es:" + state);
+          //console.log("El valor de go es:" + state);
           var enlace = '<a id='+ NombreJuego + i +' href="javascript:history.go('+ state +')">Nombre del Juego: ' + NombreJuego 
            + ', ' +'Hora: ' + HoraTermJ + ', ' + 'Puntuación: ' + puntuacion + '<a><br>';
           $("#history").prepend(enlace);
@@ -139,7 +139,7 @@ $(document).ready(function() {
           //ListaJuegos.push(AntJuego);
           //var state = - ListaJuegos.length + ListaJuegos.indexOf("AntJuego");
           PuntCapitales = puntuacion + PuntCapitales;
-          console.log("Puntuacion de Capitales:" + PuntCapitales);
+          //console.log("Puntuacion de Capitales:" + PuntCapitales);
           //history.pushState(
           //{nombre:AntJuego, hora:HoraTermJ, puntuacion:puntuacion}, 
           //"Adivinanzas", "/" + AntJuego + i );
@@ -151,7 +151,7 @@ $(document).ready(function() {
         
         JuegoElegido = "juegos/capitales.json";
         NombreJuego = $(this).html();
-        console.log(NombreJuego);
+        //console.log(NombreJuego);
         IniciarJuego();     
     });
     
@@ -172,7 +172,7 @@ $(document).ready(function() {
          //i++;
          JuegoElegido = "juegos/islas.json";
          NombreJuego = $(this).html();
-         console.log(NombreJuego);
+         //console.log(NombreJuego);
          IniciarJuego();    
     });
 
@@ -194,31 +194,31 @@ $(document).ready(function() {
          //i++;
          JuegoElegido = "juegos/monumentos.json";
          NombreJuego = $(this).html();
-         console.log(NombreJuego);
+         //console.log(NombreJuego);
          IniciarJuego();    
     });
   
     $("#level1").click(function() {
         var dificultad = 1;
-        console.log(dificultad);
+        //console.log(dificultad);
         intervalo = intervalo/dificultad;
     });
 
     $("#level5").click(function() {
         var dificultad = 5;
-        console.log(dificultad);
+        //console.log(dificultad);
         intervalo = intervalo/dificultad;
     });
 
     $("#level10").click(function() {
         var dificultad = 10;
-        console.log(dificultad);
+        //console.log(dificultad);
         intervalo = intervalo/dificultad;
     });
  
    window.onpopstate = function(event) {
       //alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-       console.log("El juego era:" + event.state.nombre);
+       //console.log("El juego era:" + event.state.nombre);
           
        if(event.state.nombre == "Capitales"){
            JuegoElegido = "juegos/capitales.json";
@@ -245,14 +245,14 @@ $(document).ready(function() {
        clearInterval(fotosviews);
        fotosvistas = 0;
        var Newnumero = Math.floor((Math.random() * longJSON) + 1) - 1;
-       console.log(Newnumero);
+       //console.log(Newnumero);
        if(Newnumero != numero){
          $.getJSON(JuegoElegido, function(data) {
-           console.log("Buscamos fotos de: " + data.features[Newnumero].properties.Name);
+           //console.log("Buscamos fotos de: " + data.features[Newnumero].properties.Name);
            Respuesta = data.features[Newnumero].properties.Name;
            //$("#juego").html("<h3>" + "</h3>");
-           console.log("Longitud: " + data.features[Newnumero].geometry.coordinates[0]);
-           console.log("Latitud: " + data.features[Newnumero].geometry.coordinates[1]);
+           //console.log("Longitud: " + data.features[Newnumero].geometry.coordinates[0]);
+           //console.log("Latitud: " + data.features[Newnumero].geometry.coordinates[1]);
            latitudjuego = data.features[Newnumero].geometry.coordinates[1];
            longitudjuego = data.features[Newnumero].geometry.coordinates[0];
            var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?&jsoncallback=?";
@@ -287,15 +287,15 @@ $(document).ready(function() {
     $.getJSON(JuegoElegido, function(data) {
       //L.geoJson(data).addTo(map).bindPopup('Coordenas GeoJSON').openPopup();
       //data.features.length;
-      console.log("Longitud JSON: " + data.features.length);
+      //console.log("Longitud JSON: " + data.features.length);
       longJSON = data.features.length;
       numero = Math.floor((Math.random() * longJSON) + 1) - 1;
-      console.log(numero);
-      console.log("Buscamos fotos de: " + data.features[numero].properties.Name);
+      //console.log(numero);
+      //console.log("Buscamos fotos de: " + data.features[numero].properties.Name);
       Respuesta = data.features[numero].properties.Name;
       //$("#juego").html("<h3>" + "</h3>");
-      console.log("Longitud: " + data.features[numero].geometry.coordinates[0]);
-      console.log("Latitud: " + data.features[numero].geometry.coordinates[1]);
+      //console.log("Longitud: " + data.features[numero].geometry.coordinates[0]);
+      //console.log("Latitud: " + data.features[numero].geometry.coordinates[1]);
       latitudjuego = data.features[numero].geometry.coordinates[1];
       longitudjuego = data.features[numero].geometry.coordinates[0];
       var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?&jsoncallback=?";
@@ -325,7 +325,7 @@ $(document).ready(function() {
       $("#imagenes").html('<img class="img-responsive" src=' + fotos[numfotos] + '/>');
       numfotos ++;
       fotosvistas++;
-      console.log(fotosvistas);
+      //console.log(fotosvistas);
    }
 
 
